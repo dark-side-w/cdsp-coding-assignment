@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import OnlineReporting from './components/online-reporting/OnlineReporting'
 import OnlineReportingDetails from './components/online-reporting/OnlineReportingDetails'
 import NotFound from './components/not-found/NotFound'
+import Layout from './components/shared/Layout'
 
 
 Vue.use(VueRouter)
@@ -13,25 +14,35 @@ export default new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/notfound',
-            name: 'notfound',
-            component: NotFound,
-        },
-        {
             path: '',
-            name: 'Online Reporting',
-            component: OnlineReporting,
-            meta: {
-                title: `${creditSuisse} | Online Reporting`
-            }
+            component: Layout,
+            children: [
+                {
+                    path: '/online-reporting',
+                    component: OnlineReporting,
+                    meta: {
+                        title: `${creditSuisse} | Online Reporting`
+                    }
+                },
+                {
+                    path: '/form',
+                    component: OnlineReportingDetails,
+                    query: {
+                        id: null,
+                    },
+                    meta: {
+                        title: `${creditSuisse} | Online Reporting - details`
+                    },
+                },
+                {
+                    path: '/',
+                    redirect: '/online-reporting',
+                },
+            ]
         },
         {
-            path: '/form',
-            name: 'Online Reporting GCMC - Details',
-            component: OnlineReportingDetails,
-            meta: {
-                title: `${creditSuisse} | Details`
-            }
+            path: '/notfound',
+            component: NotFound,
         },
         {
             path: '*',
