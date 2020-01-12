@@ -11,42 +11,42 @@ Vue.use(VueRouter)
 const creditSuisse = 'Credit Suisse'
 
 export default new VueRouter({
-    mode: 'history',
-    routes: [
+  mode: 'history',
+  routes: [
+    {
+      path: '',
+      component: Layout,
+      children: [
         {
-            path: '',
-            component: Layout,
-            children: [
-                {
-                    path: '/online-reporting',
-                    component: OnlineReporting,
-                    meta: {
-                        title: `${creditSuisse} | Online Reporting`
-                    }
-                },
-                {
-                    path: '/form',
-                    component: OnlineReportingDetails,
-                    query: {
-                        id: null,
-                    },
-                    meta: {
-                        title: `${creditSuisse} | Online Reporting - details`
-                    },
-                },
-                {
-                    path: '/',
-                    redirect: '/online-reporting',
-                },
-            ]
+          path: '/online-reporting',
+          component: OnlineReporting,
+          meta: {
+            title: `${creditSuisse} | Online Reporting`
+          }
         },
         {
-            path: '/notfound',
-            component: NotFound,
+          path: '/form',
+          component: OnlineReportingDetails,
+          query: {
+            id: null,
+          },
+          meta: {
+            title: `${creditSuisse} | Online Reporting - details`
+          },
         },
         {
-            path: '*',
-            redirect: '/notfound'
-        }
-    ]
+          path: '/',
+          redirect: '/online-reporting',
+        },
+      ]
+    },
+    {
+      path: '/notfound',
+      component: NotFound,
+    },
+    {
+      path: '*',
+      redirect: '/notfound'
+    }
+  ]
 })
