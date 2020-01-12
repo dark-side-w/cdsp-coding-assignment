@@ -1,9 +1,11 @@
 <template>
-    <div>
-        <Header />
-        <router-view />
-        <Footer />
-    </div>
+    <transition appear>
+        <div id="app">
+            <Header />
+            <router-view />
+            <Footer />
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -16,6 +18,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+body {
+    background-color: pink;
+}
 </style>
