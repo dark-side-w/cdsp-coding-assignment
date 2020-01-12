@@ -10,11 +10,5 @@ export default {
 }
 </script>
 
-<style scoped>
-    body {
-        background-color: gray;
-    }
-.not-found {
-    background-color: gray;
-}
+<style lang="scss" scoped>
 </style>
