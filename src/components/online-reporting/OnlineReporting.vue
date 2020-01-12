@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <p>Main component</p>
-    </div>
+  <div>
+    <p>Main component</p>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "OnlineReporting",
+  name: "OnlineReporting",
 }
 </script>
 

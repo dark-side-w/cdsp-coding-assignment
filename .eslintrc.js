@@ -1,15 +1,18 @@
 // https://eslint.org/docs/user-guide/configuring
 
 module.exports = {
-  root: true,
+  extends: [
+    // add more generic rulesets here, such as:
+    // 'eslint:recommended',
+    'plugin:vue/recommended'
+  ],
   rules: {
     "comma-dangle": ["error", "only-multiline"],
+    "object-curly-spacing": ["error", "always"],
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
-    "indent": ["warn", 2, { "SwitchCase": 1 }],
-    "no-prototype-builtins": 'off',
-    'vue/attribute-hyphenation': ['error', 'never'],
+    'no-debugger': process.env.node_env === 'production' ? 'error' : 'off'
   },
   overrides: [
     {
@@ -20,4 +23,4 @@ module.exports = {
       }
     }
   ]
-};
+}
