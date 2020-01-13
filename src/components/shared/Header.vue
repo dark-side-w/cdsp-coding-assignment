@@ -30,15 +30,11 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  position: absolute;
-  right: 0;
-  top: 0;
-  left: 0;
-  background-color: black;
-  height: 30px;
-  padding: 0 30px;
-  line-height: 30px;
   .nav {
+    background-color: black;
+    height: 30px;
+    padding: 0 30px;
+    line-height: 30px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -53,8 +49,9 @@ export default {
     }
   }
   .logo-wrapper {
-    float: right;
-    margin: 30px 0;
+    padding: 30px;
+    display: flex;
+    justify-content: flex-end;
     img {
       width: 200px;
     }
