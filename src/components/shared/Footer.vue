@@ -30,6 +30,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/scss/common/colors";
+
 .footer {
   position: absolute;
   right: 0;
@@ -42,6 +44,9 @@ export default {
       font-sizet: 14px;
       margin-right: 30px;
       color: white;
+      &:hover {
+        color: $gray6;
+      }
     }
   }
   hr {
