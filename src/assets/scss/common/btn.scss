@@ -1,0 +1,22 @@
+.btn-black {
+  border: solid 1px #191919;
+  background-color: black;
+  color: white;
+  transition: 0.2s ease-in-out;
+  padding: 15px;
+
+  &.active {
+    pointer-events: none;
+    font-weight: bold!important;
+  }
+
+  &:hover:not(.active) {
+    background-color: #575756;
+    color: white;
+  }
+}
+
+.btn-bold {
+  font-size: 16px;
+  font-weight: 800;
+}
