@@ -9,6 +9,17 @@
     <div class="nav">
       <a href="#">Lorem ipsum</a>
     </div>
+    <div class="copyright-wrapper">
+      <div class="text">
+        <span>Copyright © Lorem ipsum</span>
+      </div>
+      <div class="img">
+        <img
+          src="../../assets/img/credit_suisse_logo.png"
+          alt="Credit Suisse Logo"
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,6 +47,13 @@ export default {
   hr {
     background-color: white;
     margin: 30px 0;
+    color: white;
+  }
+  .copyright-wrapper {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     color: white;
   }
 }
