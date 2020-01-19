@@ -1,5 +1,8 @@
 @import "./common/index";
 
-.standard-padding { padding: 30px; }
+.standard-padding { padding: 30px; min-height: calc(100vh - 377px); }
 
-
+html, body {
+  height: 100%;
+  margin: 0;
+}

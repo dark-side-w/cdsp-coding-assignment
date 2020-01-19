@@ -11,8 +11,12 @@ export default ({ mainApi }) => {
   const actions = {
     async fetchItems ({ commit }, page) {
       commit('setLoadingItems', true)
-      commit('setItems', await mainApi.getItems(page))
-      commit('setLoadingItems', false)
+      try {
+        const { items } = await mainApi.getItems()
+        commit('setItems', items)
+      } finally {
+        commit('setLoadingItems', false)
+      }
     },
     async fetchUsers ({ commit }) {
       commit('setLoadingUsers', true)

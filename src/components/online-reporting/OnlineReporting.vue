@@ -9,22 +9,35 @@
         Create a new matter
       </b-btn>
     </div>
-    <b-row>
-      <b-col cols="6">
-        <pre>{{ items }}</pre>
-      </b-col>
-      <b-col>
-        <pre>{{ users }}</pre>
-      </b-col>
-    </b-row>
+    <div class="table-wrapper">
+      <DxDataGrid
+        :data-source="items"
+        :remote-operations="false"
+        :allow-column-reordering="true"
+        :row-alternation-enabled="true"
+        :show-borders="true"
+        class="item-table"
+      >
+        <DxPaging :page-size="pageSize" />
+      </DxDataGrid>
+    </div>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { DxColumn, DxDataGrid, DxHeaderFilter, DxPaging, DxScrolling, DxSelection, DxSorting } from 'devextreme-vue/data-grid'
+
+const pageSize = 10
 
 export default {
   name: "OnlineReporting",
+  components: { DxDataGrid, DxPaging },
+  data () {
+    return {
+      pageSize: pageSize
+    }
+  },
   computed: {
     ...mapState('main', ['items', 'loadingItems', 'users', 'loadingUsers']),
   },

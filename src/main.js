@@ -5,6 +5,7 @@ import createStore from './store/index'
 import createApi from './api/index'
 import createAxios from './utils/create-axios'
 import './plugin'
+import './assets/scss/common/devextreme.scss'
 
 Vue.config.productionTip = false
 
