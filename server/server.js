@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const paginate = require('jw-paginate');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -158,6 +157,17 @@ app.get('/api/items', (req, res, next) => {
       Id: 39
     }
   ]
+
+  const id = parseInt(req.query.id) || null
+
+  if (id) {
+    const item =  items.find(item => item.Id === id)
+    if (!item) {
+      return res.json({ error: { message: 'There is no item with specific ID' } })
+    }
+
+    return res.json({ ...item })
+  }
 
   return res.json({ items });
 });

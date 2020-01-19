@@ -5,17 +5,28 @@ const initialState = {
   loadingItems: false,
   users: [],
   loadingUsers: false,
+  item: null,
+  loadingItem: false,
 }
 
 export default ({ mainApi }) => {
   const actions = {
-    async fetchItems ({ commit }, page) {
+    async fetchItems ({ commit }) {
       commit('setLoadingItems', true)
       try {
         const { items } = await mainApi.getItems()
         commit('setItems', items)
       } finally {
         commit('setLoadingItems', false)
+      }
+    },
+    async fetchItem ({ commit }, id) {
+      commit('setLoadingItem', true)
+      try {
+        const item = await mainApi.getItem(id)
+        commit('setItem', item)
+      } finally {
+        commit('setLoadingItem', false)
       }
     },
     async fetchUsers ({ commit }) {
