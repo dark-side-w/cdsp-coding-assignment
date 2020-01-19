@@ -33,10 +33,6 @@ export default {
 @import "../../assets/scss/common/colors";
 
 .footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   background-color: black;
   padding: 30px;
   .nav {

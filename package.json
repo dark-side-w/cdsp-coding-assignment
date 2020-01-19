@@ -3,26 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "frontend": "vue-cli-service serve",
+    "backend": "npm start --prefix server",
+    "lint": "vue-cli-service lint",
+    "serve": "npm-run-all -p -r frontend backend"
   },
   "dependencies": {
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.2.0",
     "core-js": "^3.4.4",
     "vue": "^2.6.11",
-    "vue-router": "^3.1.3"
+    "vue-router": "^3.1.3",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.2",
     "@vue/cli-service": "^4.1.0",
+    "axios": "^0.19.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.13.0",
+    "npm-run-all": "^4.1.5",
     "sass-loader": "^8.0.1",
     "vue-template-compiler": "^2.6.10"
   },
