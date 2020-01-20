@@ -40,7 +40,23 @@ export default ({ mainApi }) => {
     }
   }
 
-  const mutations = {}
+  const mutations = {
+    setEmptyItem (state) {
+      state.item = {
+        RequestName: null,
+        Requestor: null,
+        GoodEnding: null,
+        Description: null,
+        NeedStoryteller: null,
+        Storyteller: false,
+        WantedCharacters: null,
+        Deadline: null,
+        Budget: null,
+        Status: null,
+        Id: null,
+      }
+    }
+  }
   const getters = {}
 
   return {

@@ -5,6 +5,7 @@
         squared
         variant="black"
         class="btn-bold"
+        @click="$router.push('/form')"
       >
         Create a new matter
       </b-btn>

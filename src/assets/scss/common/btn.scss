@@ -10,8 +10,18 @@
     font-weight: bold!important;
   }
 
-  &:hover:not(.active) {
+  &:not(:disabled) {
+    color: #fff !important;
+    background-color: black;
+    border: solid 1px #191919;
+  }
+
+  &:hover:not(:disabled):not(.active) {
     background-color: #575756;
+    color: white;
+  }
+  &:hover:disabled {
+    cursor: not-allowed;
     color: white;
   }
 }
@@ -40,7 +50,20 @@
   }
 }
 
-.btn-bold {
-  font-size: 16px;
-  font-weight: 800;
+.btn-transparent {
+  border: solid 1px #333;
+  background-color: unset;
+  color: #333;
+  transition: 0.2s ease-in-out;
+  padding: 15px;
+
+  &.active {
+    pointer-events: none;
+    font-weight: bold!important;
+  }
+
+  &:hover:not(.active) {
+    background-color: #575756;
+    color: white;
+  }
 }
