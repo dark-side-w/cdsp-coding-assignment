@@ -3,15 +3,16 @@ import { createSettersFromStateKeys } from '../utils/store-helpers'
 const initialState = {
   items: {},
   loadingItems: false,
-  users: [],
+  users: null,
   loadingUsers: false,
   item: null,
   loadingItem: false,
+  loading: false
 }
 
 export default ({ mainApi }) => {
   const actions = {
-    async fetchItems ({ commit }) {
+    async fetchItems ({ commit, state }) {
       commit('setLoadingItems', true)
       try {
         const { items } = await mainApi.getItems()
@@ -29,13 +30,46 @@ export default ({ mainApi }) => {
         commit('setLoadingItem', false)
       }
     },
-    async fetchUsers ({ commit }) {
+    async fetchUsers ({ commit, state }) {
+      if (state.users) {
+        return
+      }
       commit('setLoadingUsers', true)
       try {
         const { users } = await mainApi.getUsers()
         commit('setUsers', users)
       } finally {
         commit('setLoadingUsers', false)
+      }
+    },
+    async submitItem ({ commit }, item ) {
+      console.log(item)
+      commit('setLoading', true)
+      try {
+        return await mainApi.submit(item)
+          .then(response => {
+            return response.data
+          })
+          .catch((error) => {
+            return error
+          })
+      } finally {
+        commit('setLoading', false)
+      }
+    },
+    async sendEmail ({ commit }, { requestor, storyteller } ) {
+      console.log(requestor, storyteller)
+      commit('setLoading', true)
+      try {
+        return await mainApi.sendEmail(requestor, storyteller)
+          .then(response => {
+            return response.data
+          })
+          .catch((error) => {
+            return error
+          })
+      } finally {
+        commit('setLoading', false)
       }
     }
   }
@@ -53,7 +87,6 @@ export default ({ mainApi }) => {
         Deadline: null,
         Budget: null,
         Status: null,
-        Id: null,
       }
     }
   }

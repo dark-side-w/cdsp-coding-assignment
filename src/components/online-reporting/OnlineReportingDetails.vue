@@ -2,12 +2,40 @@
   <div class="online-reporting-details standard-padding">
     <div>
       <b-row>
+        <b-col>
+          <div class="top-btn-wrapper">
+            <b-btn
+              squared
+              variant="black"
+              class="btn-bold btn-fixed-width"
+            >
+              Matter submission
+            </b-btn>
+            <b-btn
+              squared
+              variant="transparent"
+              class="btn-bold btn-fixed-width"
+            >
+              Save changes
+            </b-btn>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="headline-wrapper">
+          <h3>Matter Submission</h3>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col
           v-if="item"
-          cols="6"
         >
+          <!-- TODO: Create dynamic form builder -->
           <b-form @submit.prevent.stop="submitForm">
-            <b-form-group label="Request name">
+            <b-form-group
+              label="Request name"
+              class="form-group-style"
+            >
               <b-form-input
                 v-model="item.RequestName"
                 :disabled="isDisabled()"
@@ -15,15 +43,23 @@
                 maxlength="255"
               />
             </b-form-group>
-            <b-form-group label="Requestor">
-              <b-form-select
+            <b-form-group
+              label="Requestor"
+              class="form-group-style"
+            >
+              <v-select
                 v-model="item.Requestor"
-                :options="requestorOprions()"
+                class="v-select-style"
+                :options="requestorOptions()"
                 :disabled="isDisabled()"
-                required
+                :reduce="person => person.value"
+                label="text"
               />
             </b-form-group>
-            <b-form-group label="Good ending">
+            <b-form-group
+              label="Good ending"
+              class="form-group-style"
+            >
               <b-form-radio-group
                 v-model="item.GoodEnding"
                 :options="goodEndingOptions"
@@ -32,12 +68,17 @@
                 required
               />
             </b-form-group>
-            <b-form-group label="Description">
-              <b-form-input
+            <b-form-group
+              label="Description"
+              class="form-group-style"
+            >
+              <b-form-textarea
                 v-model="item.Description"
                 :disabled="isDisabled()"
                 required
                 minlength="255"
+                rows="3"
+                max-rows="6"
               />
               <div class="mt-2">
                 No spoilers please
@@ -46,7 +87,7 @@
             <b-form-checkbox
               v-model="item.NeedStoryteller"
               :disabled="isDisabled()"
-              class="mt-4 mb-4"
+              class="mt-4 form-group-style"
               required
             >
               Need storyteller
@@ -54,21 +95,65 @@
             <b-form-group
               v-if="item.NeedStoryteller"
               label="Storyteller"
+              class="form-group-style"
             >
               <b-form-select
                 v-model="item.Storyteller"
-                :options="requestorOprions()"
+                :options="requestorOptions()"
                 :disabled="isDisabled()"
                 required
               />
             </b-form-group>
-            <b-form-group label="Wanted characters">
+            <b-form-group
+              label="Wanted characters"
+              class="form-group-style"
+            >
               <v-select
                 :value="getWantedCharacters()"
                 multiple
                 :options="randomCharacters"
                 :disabled="isDisabled()"
                 @input="setWantedCharacters"
+              />
+            </b-form-group>
+            <b-form-group
+              label="Deadline"
+              class="form-group-style"
+            >
+              <datepicker
+                v-model="item.Deadline"
+                input-class="form-control"
+                :disabled-dates="{ to: new Date(Date.now() + 2419200000), from: new Date(new Date().getFullYear()+1, 0, 0) }"
+                :disabled="isDisabled()"
+              />
+            </b-form-group>
+            <b-form-group
+              label="Budget"
+              class="form-group-style"
+            >
+              <b-input-group append="Dollars (FBD)">
+                <b-form-input
+                  v-model="item.Budget"
+                  :disabled="isDisabled()"
+                  type="number"
+                  min="250000"
+                  placeholder="Min 250000"
+                  required
+                />
+              </b-input-group>
+            </b-form-group>
+            <b-form-group
+              label="Status"
+              class="form-group-style"
+              hidden
+            >
+              <v-select
+                v-model="item.Status"
+                class="v-select-style"
+                :options="statusOptions"
+                disabled
+                :reduce="person => person.value"
+                label="text"
               />
             </b-form-group>
             <div>
@@ -81,11 +166,11 @@
                 Cancel
               </b-btn>
               <b-btn
-                type="submit"
                 squared
                 variant="black"
                 class="btn-bold mr-2 btn-width"
                 :disabled="isDisabled()"
+                @click="save"
               >
                 Save
               </b-btn>
@@ -111,9 +196,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import Datepicker from 'vuejs-datepicker'
 
 export default {
   name: "OnlineReportingDetails",
+  components: { Datepicker },
   data () {
     return {
       itemId: this.$route.query.id,
@@ -224,7 +311,11 @@ export default {
         '1sbkx',
         'T4iGa'
       ],
-      isNew: false
+      isNew: false,
+      statusOptions: [
+        { text: 'Draft', value: 'Draft' },
+        { text: 'New', value: 'New' },
+      ]
     }
   },
   computed: {
@@ -238,26 +329,27 @@ export default {
       this.isNew = true
     }
 
-    if(!this.users.length) {
-      await this.$store.dispatch('main/fetchUsers')
-    }
+    await this.$store.dispatch('main/fetchUsers')
   },
   methods: {
     isDisabled () {
       if (!this.itemId) {
         return false
       }
-      if (this.users.length && this.item.Requestor) {
+      if (this.users && this.item.Requestor) {
         return !this.users.find(user => user.Id === this.item.Requestor).Roles.some(role => role === 'Owner')
       }
     },
-    requestorOprions () {
-      return this.users.map(user => ({
-        value: user.Id,
-        text: user.DisplayName
-      }))
+    requestorOptions () {
+      if(this.users) {
+        return this.users.map(user => ({
+          value: user.Id,
+          text: user.DisplayName
+        }))
+      }
     },
     setWantedCharacters (data) {
+      // FIXME: Move action to store
       this.item.WantedCharacters = data.join(';')
     },
     getWantedCharacters () {
@@ -265,16 +357,86 @@ export default {
         return this.item.WantedCharacters.split(';')
       }
     },
-    submitForm(event) {
-      console.log(event, this.item)
+    async submitForm() {
+      // FIXME: Move mutation to store
+      this.item.Status = 'New'
+      console.log('No i co?')
+      await this.$store.dispatch('main/submitItem', this.item)
+        .then(() => {
+          this.sendEmail()
+        })
+    },
+    save () {
+      // FIXME: Move mutation to store
+      this.item.Status = 'Draft'
+
+      // TODO: Save to localStorage, sessionStorage
+      this.$router.push('/')
+    },
+    getUser (type) {
+      if (this.users && this.item) {
+        return this.users.find(user => user.Id === this.item[type])
+      }
+    },
+    async sendEmail () {
+      await this.$store.dispatch('main/sendEmail', { requestor: this.getUser('Requestor'), storyteller: this.getUser('Storyteller') })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .btn-width {
-    width: 100px;
-    padding: 7px 15px;
+.btn-width {
+  width: 100px;
+  padding: 7px 15px;
+}
+.vs--disabled /deep/ .vs__dropdown-toggle {
+  background-color: #e9ecef;
+  .vs__selected {
+    color: #777;
   }
+  input {
+    background-color: unset;
+  }
+}
+/deep/.vs__search {
+  margin-top: 13px;
+  margin-bottom: 5px;
+}
+/deep/ .vs__dropdown-toggle {
+  border-radius: unset;
+}
+input:disabled {
+  color: #777;
+}
+.datapicker {
+  display: block;
+  width: 100%;
+}
+.headline-wrapper {
+  margin-bottom: 80px;
+}
+
+.btn-fixed-width {
+  width: 150px;
+  font-size: 14px;
+}
+.top-btn-wrapper {
+  margin-bottom: 30px;
+}
+.form-group-style {
+  margin-bottom: 45px;
+}
+/deep/.form-control, .custom-select {
+  height: 48px;
+  border-radius: unset;
+  background-color: white;
+}
+/deep/.form-control:disabled, .custom-select:disabled {
+  cursor: not-allowed;
+  background-color: #e9ecef;
+}
+.input-group-append .input-group-text {
+  border-radius: unset;
+}
 </style>

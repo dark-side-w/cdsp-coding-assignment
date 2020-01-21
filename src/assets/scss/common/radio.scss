@@ -1,0 +1,11 @@
+.custom-radio .custom-control-label::before, .custom-checkbox .custom-control-label::before {
+  border-radius: unset;
+}
+
+.custom-control-input:checked + .custom-control-label::before {
+  border-color: black;
+  background-color: black;
+}
+.custom-control-input:focus + .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25)
+}
